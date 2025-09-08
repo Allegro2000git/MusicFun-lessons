@@ -1,31 +1,39 @@
 import {Track} from "./Track";
-import {useEffect, useState} from "react";
 import type {TrackDataItem} from "./types/types";
 import {api} from "./api";
+import {useQuery} from "./hooks/utils/useQuery";
 
 type Props = {
     onTrackSelect: (trackId: string) => void
     selectedTrackId: string | null
 }
 
-export const TracksList = ({onTrackSelect, selectedTrackId}: Props) => {
-    const [listQueryStatus, setListQueryStatus] = useState<'success' | 'loading' | 'pending'>('loading')
-    const [tracks, setTracks] = useState<TrackDataItem[] | null>(null)
+function useTracksList (onTrackSelect: (trackId: string) => void) {
+    const { status: listQueryStatus,
+            data: tracks
+            } = useQuery<TrackDataItem[]>(
+                { queryStatusDefault: 'loading',
+                  queryKeys: [],
+                    queryFn: async () => {
+                        return  await api.getTracks()
+                            .then(json => json.data)
+                    }
+                })
 
-    useEffect( () => {
-        api.getTracks()
-            .then(json => {
-                setTracks(json.data)
-                setListQueryStatus('success')
-            })
-    }, [])
+    const handleSelect = (trackId: string) => {
+        onTrackSelect(trackId)
+    }
+    return {
+        listQueryStatus, tracks, handleSelect
+    }
+}
+
+export const TracksList = ({onTrackSelect, selectedTrackId}: Props) => {
+
+    const {listQueryStatus, tracks, handleSelect} = useTracksList(onTrackSelect)
 
  if (listQueryStatus === "loading") {
      return <div>Loading...</div>
- }
-
- const handleSelect = (trackId: string) => {
-     onTrackSelect(trackId)
  }
 
     return (

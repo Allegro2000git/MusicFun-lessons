@@ -3,8 +3,17 @@ import {useState} from "react";
 import {TracksList} from "./TracksList";
 import {TrackDetail} from "./TrackDetail";
 
-export function App() {
+function useApp() {
     const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null)
+
+    return {
+        selectedTrackId,
+        setSelectedTrackId
+    }
+}
+
+export function App() {
+  const {selectedTrackId, setSelectedTrackId} = useApp()
 
   return (
       <>

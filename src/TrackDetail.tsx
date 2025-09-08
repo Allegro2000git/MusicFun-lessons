@@ -1,35 +1,28 @@
-import {useEffect, useRef, useState} from "react";
 import type {TrackResponse} from "./types/types";
+import {useQuery} from "./hooks/utils/useQuery";
 import {api} from "./api";
 
 type Props = {
     trackId: string | null
 }
 
+function useTrackDetail(trackId: string | null) {
+    const { status: detailQueryStatus,
+            data: track,
+            } = useQuery<TrackResponse>({
+                    queryStatusDefault: 'pending',
+                    queryKeys: [trackId!],
+                    skip: !trackId,
+                    queryFn: async () => {
+                        return await api.getTrack(trackId!)
+                    }
+                })
+
+    return {detailQueryStatus,track}
+}
+
 export const TrackDetail = ({trackId}: Props) => {
-    const [detailQueryStatus, setDetailQueryStatus] = useState<'pending' | 'success' | 'loading'>('pending')
-    const [track, setTrack] = useState<TrackResponse | null>(null)
-
-    const abortControllerRef= useRef<AbortController | null>(null)
-
-    useEffect(() => {
-        abortControllerRef.current?.abort()
-        if (!trackId) {
-            setTrack(null)
-            setDetailQueryStatus('pending')
-            return
-        }
-
-        abortControllerRef.current = new AbortController()
-
-        setDetailQueryStatus('loading')
-
-        api.getTrack(trackId, abortControllerRef.current.signal)
-            .then(json => {
-                setTrack(json)
-                setDetailQueryStatus('success')
-            })
-    }, [trackId]);
+    const {detailQueryStatus, track} = useTrackDetail(trackId)
 
     if (detailQueryStatus === 'pending') {
         return <span>Not track for display</span>
