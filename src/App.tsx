@@ -24,6 +24,7 @@ export function App() {
                   setSelectedTrackId(trackId)
               }}/>
               <TrackDetail trackId={selectedTrackId}/>
+              {/*<TrackDetail trackId={selectedTrackId}/>*/}
           </div>
       </>
   )

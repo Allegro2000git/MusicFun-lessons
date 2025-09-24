@@ -11,8 +11,9 @@ function useTrackDetail(trackId: string | null) {
             data: track,
             } = useQuery<TrackResponse>({
                     queryStatusDefault: 'pending',
-                    queryKeys: [trackId!],
+                    queryKey: ['track', trackId],
                     skip: !trackId,
+                    enabled: !!trackId,
                     queryFn: async () => {
                         return await api.getTrack(trackId!)
                     }

@@ -13,9 +13,9 @@ function useTracksList (onTrackSelect: (trackId: string) => void) {
             data: tracks
             } = useQuery<TrackDataItem[]>(
                 { queryStatusDefault: 'loading',
-                  queryKeys: [],
+                  queryKey: [],
                     queryFn: async () => {
-                        return  await api.getTracks()
+                        return await api.getTracks()
                             .then(json => json.data)
                     }
                 })
@@ -39,7 +39,7 @@ export const TracksList = ({onTrackSelect, selectedTrackId}: Props) => {
     return (
         <ul>
             <h2>List</h2>
-            {tracks?.map((t) => <Track onSelect={handleSelect} track={t} isSelected={selectedTrackId === t.id}/>)}
+            {tracks?.map(t => <Track onSelect={handleSelect} track={t} isSelected={selectedTrackId === t.id}/>)}
         </ul>
     );
 };
