@@ -1,7 +1,8 @@
-import type {TrackDataItem} from "./types/types";
+import type {SchemaTrackListItemOutput} from "./shared/api/schema";
+
 
 type Props = {
-    track: TrackDataItem
+    track: SchemaTrackListItemOutput
     isSelected: boolean
     onSelect: (trackId: string) => void
 };
@@ -14,7 +15,7 @@ export const Track = ({track, isSelected, onSelect}: Props) => {
     return (
             <li style={{color}}>
                 <h4 onClick={() =>{onSelect(track.id)}}>{track.attributes.title}</h4>
-                <audio src={track.attributes.attachments[0].url} controls={true}/>
+                <audio src={track.attributes.attachments[0]!.url} controls={true}/>
             </li>
     );
 };

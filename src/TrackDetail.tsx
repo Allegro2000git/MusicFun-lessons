@@ -1,5 +1,6 @@
-import {api} from "./api.ts";
+
 import {useQuery, keepPreviousData} from "@tanstack/react-query";
+import {client} from "./shared/api/client";
 
 type Props = {
     trackId: string | null
@@ -7,8 +8,16 @@ type Props = {
 
 export function TrackDetail({trackId}: Props) {
     const {data, isPending, isError, isFetching} = useQuery({
-        queryFn: ({signal}) => {
-            return api.getTrack(trackId!, signal);
+        queryFn: async ({signal}) => {
+             const clientData = await client.GET('/playlists/tracks/{trackId}', {
+                 params: {
+                     path: {
+                         trackId: trackId!
+                     },
+                 },
+                 signal
+             })
+            return clientData.data!
         },
         enabled: Boolean(trackId),
         queryKey: ['track', trackId],
