@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState} from "react";
-import type {Entry, QueryFnParams, QueryKey} from "../../query-client";
-import {queryClient} from "../../query-client-instance";
+import {useContext, useEffect, useRef, useState} from "react";
+import type {Entry, QueryFnParams, QueryKey} from "./query-client";
+
+
+import {QueryClientContext} from "./QueryClientContext";
 
 type QueryStatus = 'success' | 'loading' | 'pending'
 
@@ -19,10 +21,10 @@ export function useQuery<T>(params: Options<T>) {
         throw new Error('queryKey is required')
     }
 
-    const initEntry = queryClient.initEntry(queryKey, enabled)
+    const queryClient = useContext(QueryClientContext)
+    if (!queryClient) throw new Error("queryClient nust be inside context")
 
-    //const [status, setStatus] = useState<QueryStatus>(params.queryStatusDefault ?? "loading")
-    // const [data, setData] = useState<T | null>(null)
+    const initEntry = queryClient.initEntry(queryKey, enabled)
 
     const [entry, setEntry] = useState<Entry>(initEntry)
 

@@ -1,31 +1,22 @@
 import './App.css'
-import {useState} from "react";
-import {TracksList} from "./TracksList";
-import {TrackDetail} from "./TrackDetail";
+import {MainPage} from "./MainPage";
+import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
 
-function useApp() {
-    const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null)
-
-    return {
-        selectedTrackId,
-        setSelectedTrackId
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 10 * 1000,
+            gcTime: 20 * 1000
+        }
     }
-}
+})
+// @ts-expect-error we dont need typing
+window.__TANSTACK_QUERY_CLIENT__ = queryClient;
 
 export function App() {
-  const {selectedTrackId, setSelectedTrackId} = useApp()
-
-  return (
-      <>
-          <h1>MusicFun</h1>
-          <button onClick={() => {setSelectedTrackId(null)}}>Reset</button>
-          <div style={{'display': 'flex', 'gap': '20px'}}>
-              <TracksList selectedTrackId={selectedTrackId} onTrackSelect={(trackId) => {
-                  setSelectedTrackId(trackId)
-              }}/>
-              <TrackDetail trackId={selectedTrackId}/>
-              {/*<TrackDetail trackId={selectedTrackId}/>*/}
-          </div>
-      </>
-  )
+    return (
+        <QueryClientProvider client={queryClient}>
+            <MainPage/>
+        </QueryClientProvider>
+    )
 }
