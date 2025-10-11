@@ -1,5 +1,5 @@
 import type {SchemaTrackListItemResource} from "./shared/api/schema";
-import {NavLink} from "./shared/libs/router/Route";
+import {NavLink} from "react-router";
 
 
 type Props = {

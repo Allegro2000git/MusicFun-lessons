@@ -1,6 +1,6 @@
 import {useQuery, keepPreviousData} from "@tanstack/react-query";
 import {client} from "./shared/api/client";
-import {useParams} from "./shared/libs/router/Route";
+import {useParams} from "react-router";
 
 export function TrackDetail() {
 
