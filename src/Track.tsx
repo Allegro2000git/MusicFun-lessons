@@ -1,20 +1,17 @@
-import type {SchemaTrackListItemOutput} from "./shared/api/schema";
+import type {SchemaTrackListItemResource} from "./shared/api/schema";
+import {NavLink} from "./shared/libs/router/Route";
 
 
 type Props = {
-    track: SchemaTrackListItemOutput
-    isSelected: boolean
-    onSelect: (trackId: string) => void
+    track: SchemaTrackListItemResource
 };
 
 
-export const Track = ({track, isSelected, onSelect}: Props) => {
-
-    const color =  isSelected? 'red' : 'black'
+export const Track = ({track}: Props) => {
 
     return (
-            <li style={{color}}>
-                <h4 onClick={() =>{onSelect(track.id)}}>{track.attributes.title}</h4>
+            <li>
+                <h4><NavLink to={"/tracks/" + track.id}>{track.attributes.title}</NavLink></h4>
                 <audio src={track.attributes.attachments[0]!.url} controls={true}/>
             </li>
     );

@@ -1,6 +1,8 @@
 import './App.css'
-import {MainPage} from "./MainPage";
 import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
+import {TracksList} from "./TracksList";
+import {TrackDetail} from "./TrackDetail";
+import {BrowserRouter, NavLink, Route} from "./shared/libs/router/Route";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -14,9 +16,17 @@ const queryClient = new QueryClient({
 window.__TANSTACK_QUERY_CLIENT__ = queryClient;
 
 export function App() {
+
+
     return (
         <QueryClientProvider client={queryClient}>
-            <MainPage/>
+            <BrowserRouter>
+                <header>
+                    <NavLink to={"/"}>Main</NavLink>
+                </header>
+                <Route path={"/"} element={<TracksList />} />
+                <Route path="/tracks/:trackId" element={<TrackDetail />} />
+            </BrowserRouter>
         </QueryClientProvider>
     )
 }
