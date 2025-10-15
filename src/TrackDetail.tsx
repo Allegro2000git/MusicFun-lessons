@@ -38,7 +38,7 @@ export function TrackDetail() {
         <h2>{isFetching && "⏳"} Detail</h2>
 
         <h3>{data.data.attributes.title}</h3>
-        <div>{data.data.attributes.addedAt}</div>
+        <div>{new Date(data.data.attributes.addedAt).toLocaleString()}</div>
         <div>likes: {data.data.attributes.likesCount}</div>
         <div>lyrics: {data.data.attributes.lyrics}</div>
     </div>

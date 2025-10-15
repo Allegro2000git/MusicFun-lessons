@@ -9,7 +9,7 @@ import {CommonLayout} from "./layouts/CommonLayout";
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            staleTime: 10 * 1000,
+            staleTime: Infinity,
             gcTime: 20 * 1000
         }
     }
