@@ -13,7 +13,7 @@ export const AuthLayout = () => {
     )
 }
 
-const NavBarMenuItem = ({to, title}) => {
+const NavBarMenuItem = ({to, title}:{to: string, title: string}) => {
     return (
         <NavLink className={({ isActive }) => isActive ? s.active : ""} to={to}>{title}</NavLink>
     )
