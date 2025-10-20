@@ -1,7 +1,6 @@
-import type {SchemaTrackListItemResource} from "./shared/api/schema"
-import {NavLink} from "react-router"
-import {useEffect, useRef} from "react"
-import type {LoopType} from "./TracksList";
+import type {SchemaTrackListItemResource} from "./shared/api/schema";
+import {NavLink} from "react-router";
+import {useEffect, useRef} from "react";
 
 
 type Props = {
@@ -9,19 +8,16 @@ type Props = {
     onTrackEnd: (trackId: string) => void
     onTrackPlay: (trackId: string) => void
     isPlaying: boolean
-    loopMode: LoopType
 };
 
 
-export const Track = ({track, onTrackEnd, isPlaying, loopMode}: Props) => {
+export const Track = ({track, onTrackEnd, isPlaying}: Props) => {
     const audioRef = useRef<HTMLAudioElement | null>(null)
 
     useEffect(() => {
         if (audioRef.current) {
             if (isPlaying) {
                 audioRef.current.play();
-            } else {
-                audioRef.current.pause();
             }
         }
     }, [isPlaying]);
@@ -36,9 +32,7 @@ export const Track = ({track, onTrackEnd, isPlaying, loopMode}: Props) => {
                 <audio
                     src={track.attributes.attachments[0]!.url}
                     controls={true} onEnded={handleTrackEnded}
-                    ref={audioRef}
-                    loop={loopMode === 'loop-active-song'}
-                />
+                    ref={audioRef}/>
             </li>
     );
 };

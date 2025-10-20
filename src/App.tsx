@@ -1,16 +1,16 @@
 import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
-import {TracksList} from "./TracksList";
 import {TrackDetail} from "./TrackDetail";
 import {BrowserRouter, Route, Routes, useParams} from "react-router";
 import {AuthLayout, GlobalLayout} from "./layouts/AuthLayout";
 import {CommonLayout} from "./layouts/CommonLayout";
+import {TracksList} from "./features-layer/tracks-slice/ui-segment/TracksList";
 
 
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             staleTime: Infinity,
-            gcTime: 20 * 1000
+            gcTime: 60 * 1000
         }
     }
 })
