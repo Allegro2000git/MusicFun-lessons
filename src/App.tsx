@@ -1,9 +1,13 @@
-import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {TrackDetail} from "./TrackDetail";
-import {BrowserRouter, Route, Routes, useParams} from "react-router";
-import {AuthLayout, GlobalLayout} from "./layouts/AuthLayout";
+import {BrowserRouter, Route, Routes} from "react-router";
+import {AuthLayout} from "./layouts/AuthLayout";
 import {CommonLayout} from "./layouts/CommonLayout";
-import {TracksList} from "./features-layer/tracks-slice/ui-segment/TracksList";
+import {TracksList} from "./widgets-layer/tracks-slice/ui-segment/TracksList";
+import {GlobalLayout} from "./layouts/GlobalLayout";
+import {Login} from "./pages-layer/Login";
+import {Register} from "./pages-layer/Register";
+import {NotFound} from "./pages-layer/NotFound";
 
 
 const queryClient = new QueryClient({
@@ -24,11 +28,10 @@ export function App() {
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Routes>
-                    <Route path={"/:lang?"} element={<GlobalLayout/>}>
+                    <Route element={<GlobalLayout/>}>
                         <Route path={'auth'} element={<AuthLayout/>}>
                             <Route path={"login"} element={<Login/>}/>
                             <Route path={"register"} element={<Register/>}/>
-                            <Route path={"*"} element={<AuthNotFound/>}/>
                         </Route>
 
                         <Route element={<CommonLayout/>}>
@@ -43,35 +46,3 @@ export function App() {
     )
 }
 
-const Login = () => {
-    let {lang} = useParams()
-    if (!lang) lang = "en"
-
-    return (
-        <div>
-            lang: {lang}
-            <hr/>
-            <input/>
-            <input/>
-            <button>Login</button>
-        </div>
-    )
-}
-
-const Register = () => {
-    return (
-        <div>
-            <input/>
-            <button>Register</button>
-        </div>
-    )
-}
-
-const AuthNotFound = () => {
-   const params = useParams()
-    return <h2>Auth Not Found {params['*']}</h2>
-}
-
-const NotFound = () => {
-    return <h2>Not Found</h2>
-}
