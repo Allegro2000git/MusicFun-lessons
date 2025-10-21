@@ -1,13 +1,14 @@
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import {TrackDetail} from "./TrackDetail";
 import {BrowserRouter, Route, Routes} from "react-router";
 import {AuthLayout} from "./layouts/AuthLayout";
 import {CommonLayout} from "./layouts/CommonLayout";
-import {TracksList} from "./widgets-layer/tracks-slice/ui-segment/TracksList";
 import {GlobalLayout} from "./layouts/GlobalLayout";
-import {Login} from "./pages-layer/Login";
-import {Register} from "./pages-layer/Register";
-import {NotFound} from "./pages-layer/NotFound";
+import {NotFoundPage} from "./pages-layer/NotFoundPage";
+import {RegisterPage} from "./pages-layer/RegisterPage";
+import {LoginPage} from "./pages-layer/LoginPage";
+import {ProfilePage} from "./pages-layer/ProfilePage";
+import {TrackDetailPage} from "./pages-layer/TrackDetailPage";
+import {TracksListPage} from "./pages-layer/TracksListPage";
 
 
 const queryClient = new QueryClient({
@@ -30,15 +31,16 @@ export function App() {
                 <Routes>
                     <Route element={<GlobalLayout/>}>
                         <Route path={'auth'} element={<AuthLayout/>}>
-                            <Route path={"login"} element={<Login/>}/>
-                            <Route path={"register"} element={<Register/>}/>
+                            <Route path={"login"} element={<LoginPage/>}/>
+                            <Route path={"register"} element={<RegisterPage/>}/>
                         </Route>
 
                         <Route element={<CommonLayout/>}>
-                            <Route path={"/"} element={<TracksList />} />
-                            <Route path="/tracks/:trackId" element={<TrackDetail />} />
+                            <Route path={"/"} element={<TracksListPage />} />
+                            <Route path="/tracks/:trackId" element={<TrackDetailPage />} />
+                            <Route path="/profile/:userId" element={<ProfilePage />} />
                         </Route>
-                        <Route path={"*"} element={<NotFound/>}/>
+                        <Route path={"*"} element={<NotFoundPage/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

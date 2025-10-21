@@ -1,5 +1,6 @@
 import s from "../App.module.css";
 import {NavLink, Outlet} from "react-router";
+import {useMeQuery} from "../features-layer/auth-slice/model/useMeQuery";
 
 const NavBarMenuItem = ({to, title}: { to: string, title: string }) => {
     return (
@@ -8,11 +9,15 @@ const NavBarMenuItem = ({to, title}: { to: string, title: string }) => {
 }
 export const GlobalLayout = () => {
 
+    const {data, isLoading, isError} = useMeQuery()
+
     return (<div>
         <header className={s.active}>
             <NavBarMenuItem to={"/"} title={"Main"}/>
-            <NavBarMenuItem to={`/auth/login`} title={"Login"}/>
-            <NavBarMenuItem to={`/auth/register`} title={"Register"}/>
+            {!data && !isLoading && <NavBarMenuItem to={`/auth/login`} title={"Login"}/>}
+            {isError && <NavBarMenuItem to={`/auth/register`} title={"Register"}/>}
+            {data && <NavBarMenuItem to={`/profile/:` + data.userId} title={`${data.login}`}/>}
+
         </header>
         <Outlet/>
         <footer>footer from global layout</footer>
