@@ -17,7 +17,7 @@ export function Pagination({limit, skip, total, onPageSelect}: Props) {
                         onPageSelect(index + 1)
                     }
                 }}
-                            style={{border: currentPage === index + 1 ? "1px red solid" : ""}}>{index + 1}</div>
+                style={{border: currentPage === index + 1 ? "1px red solid" : ""}}>{index + 1}</div>
             })}
     </div>
 }

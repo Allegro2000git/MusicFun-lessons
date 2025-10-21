@@ -1,6 +1,7 @@
-import type {SchemaTrackListItemResource} from "./shared/api/schema";
+
 import {NavLink} from "react-router";
 import {useEffect, useRef} from "react";
+import type {SchemaTrackListItemResource} from "./shared-layer/api-segment/schema";
 
 
 type Props = {

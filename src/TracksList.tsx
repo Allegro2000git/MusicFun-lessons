@@ -1,8 +1,8 @@
 import {Track} from "./Track.tsx";
 import {useQuery} from "@tanstack/react-query";
-import {client} from "./shared/api/client";
 import {useSearchParams} from "react-router";
 import {useEffect, useRef, useState} from "react";
+import {client} from "./shared-layer/api-segment/client";
 
 export type LoopType = 'no-loop' | 'loop-playlist' | 'loop-active-song'
 
