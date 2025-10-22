@@ -57,7 +57,7 @@ export function Search({onSearch, isSearchButtonVisibles = true, mode = 'immedia
 
     return (
         <>
-            <input value={search} onChange={handleSearchChange}/>
+            <input value={search} onChange={handleSearchChange} placeholder={"search..."}/>
             {isSearchButtonVisibles && <button onClick={handleSearchClick}>Search</button>}
         </>
 

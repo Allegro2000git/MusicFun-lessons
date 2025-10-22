@@ -6,7 +6,9 @@ export const client = createClient<paths>({ baseUrl: "https://musicfun.it-incuba
 
 const myMiddleware: Middleware = {
     async onRequest({ request }) {
-        request.headers.set( 'API-KEY', "xx");
+        request.headers.set( 'API-KEY', "e6csfavasfvasfv");
+        const encode = btoa('wfvfwvsfavfv')
+        request.headers.set( 'Authorization', `Basic ${encode}`);
         return request;
     },
 };

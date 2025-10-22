@@ -16,7 +16,7 @@ export const GlobalLayout = () => {
             <NavBarMenuItem to={"/"} title={"Main"}/>
             {!data && !isLoading && <NavBarMenuItem to={`/auth/login`} title={"Login"}/>}
             {isError && <NavBarMenuItem to={`/auth/register`} title={"Register"}/>}
-            {data && <NavBarMenuItem to={`/profile/:` + data.userId} title={`${data.login}`}/>}
+            {data && <NavBarMenuItem to={`/profile/` + data.userId} title={`${data.login}`}/>}
 
         </header>
         <Outlet/>

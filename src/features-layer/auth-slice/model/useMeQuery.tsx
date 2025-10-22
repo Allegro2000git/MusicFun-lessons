@@ -11,7 +11,7 @@ export const useMeQuery = () => {
             }
             return wrapper.data
         },
-        queryKey: [],
+        queryKey: ['auth'],
         retry: false
     })
 };

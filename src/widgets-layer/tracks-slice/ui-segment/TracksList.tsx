@@ -19,14 +19,18 @@ function usePagination () {
     }
 }
 
-export function TracksList() {
+type Props = {
+    userId?: string
+    includeDrafts?: boolean
+}
 
+export function TracksList({userId, includeDrafts}: Props) {
     const [currentPlayingTrack, setCurrentPlayingTrack] = useState<string | null>(null)
     const listRef = useRef<HTMLUListElement | null>(null)
     const [search, setSearch] = useState("")
     const {pageNumber, setPageNumber, pageSize, setPageSize} = usePagination()
 
-    const {data, isPending, isError} = useTracksQuery({pageNumber, pageSize, search})
+    const {data, isPending, isError} = useTracksQuery({pageNumber, pageSize, search, userId, includeDrafts})
 
     useEffect(() => {
         function scrollToTrack(trackId: string) {

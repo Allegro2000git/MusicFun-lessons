@@ -1,10 +1,11 @@
 import {useQuery, keepPreviousData} from "@tanstack/react-query";
 import {client} from "./shared-layer/api-segment/client";
-import {useParams} from "react-router";
 
-export function TrackDetail() {
+type Props = {
+    trackId: string
+}
 
-    const {trackId} = useParams();
+export function TrackDetail({trackId}: Props) {
 
     const {data, isPending, isError, isFetching} = useQuery({
         queryFn: async ({signal}) => {
@@ -38,7 +39,7 @@ export function TrackDetail() {
         <h2>{isFetching && "⏳"} Detail</h2>
 
         <h3>{data.data.attributes.title}</h3>
-        <div>{new Date(data.data.attributes.addedAt).toLocaleString()}</div>
+        <div>{data.data.attributes.publishedAt && new Date(data.data.attributes.publishedAt).toLocaleString()}</div>
         <div>likes: {data.data.attributes.likesCount}</div>
         <div>lyrics: {data.data.attributes.lyrics}</div>
     </div>
