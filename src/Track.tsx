@@ -1,7 +1,7 @@
-
+import type {SchemaTrackListItemResource} from "./shared-layer/api-segment/schema";
 import {NavLink} from "react-router";
 import {useEffect, useRef} from "react";
-import type {SchemaTrackListItemResource} from "./shared-layer/api-segment/schema";
+import {DeleteTrackButton} from "./features-layer/tracks-slice/delete-track-feature/ui-segment/DeleteTrackButton";
 
 
 type Props = {
@@ -34,6 +34,8 @@ export const Track = ({track, onTrackEnd, isPlaying}: Props) => {
                     src={track.attributes.attachments[0]!.url}
                     controls={true} onEnded={handleTrackEnded}
                     ref={audioRef}/>
+                    {!track.attributes.isPublished && <span>no Publish</span>}
+                    <DeleteTrackButton trackId={track.id}/>
             </li>
     );
 };

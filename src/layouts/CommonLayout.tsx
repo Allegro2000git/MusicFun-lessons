@@ -5,7 +5,8 @@ export const CommonLayout = () => {
         <div>
             <header><h1>Welcome to our service</h1></header>
             <Outlet/>
-            <footer style={{backgroundColor: "orange"}}>
+            <footer>
+                <hr/>
                 footer from common layout
             </footer>
         </div>

@@ -1,12 +1,15 @@
 import createClient, {type Middleware} from "openapi-fetch"
 import type {paths} from "./schema";
-
+import {authStorage} from "../libs-segment/authStorage";
 
 export const client = createClient<paths>({ baseUrl: "https://musicfun.it-incubator.app/api/1.0/" });
 
 const myMiddleware: Middleware = {
     async onRequest({ request }) {
-        request.headers.set( 'API-KEY', "69481bda-b1ff-473b-8e7a-78a0ef8ef1e3");
+        request.headers.set( 'API-KEY', "a727ff81-a");
+        const {login, password} = authStorage.getBasicCredentials()
+        const encoded = btoa(`${login}:${password}`)
+        request.headers.set('Authorization', `Basic ${encoded}`)
         return request;
     },
 };

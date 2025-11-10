@@ -1,9 +1,14 @@
-import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
-import {TrackDetail} from "./TrackDetail";
-import {BrowserRouter, Route, Routes, useParams} from "react-router";
-import {AuthLayout, GlobalLayout} from "./layouts/AuthLayout";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {BrowserRouter, Route, Routes} from "react-router";
+import {AuthLayout} from "./layouts/AuthLayout";
 import {CommonLayout} from "./layouts/CommonLayout";
-import {TracksList} from "./features-layer/tracks-slice/ui-segment/TracksList";
+import {GlobalLayout} from "./layouts/GlobalLayout";
+import {NotFoundPage} from "./pages-layer/NotFoundPage";
+import {RegisterPage} from "./pages-layer/RegisterPage";
+import {LoginPage} from "./pages-layer/LoginPage";
+import {ProfilePage} from "./pages-layer/ProfilePage";
+import {TrackDetailPage} from "./pages-layer/TrackDetailPage";
+import {TracksListPage} from "./pages-layer/TracksListPage";
 
 
 const queryClient = new QueryClient({
@@ -24,18 +29,18 @@ export function App() {
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Routes>
-                    <Route path={"/:lang?"} element={<GlobalLayout/>}>
+                    <Route element={<GlobalLayout/>}>
                         <Route path={'auth'} element={<AuthLayout/>}>
-                            <Route path={"login"} element={<Login/>}/>
-                            <Route path={"register"} element={<Register/>}/>
-                            <Route path={"*"} element={<AuthNotFound/>}/>
+                            <Route path={"login"} element={<LoginPage/>}/>
+                            <Route path={"register"} element={<RegisterPage/>}/>
                         </Route>
 
                         <Route element={<CommonLayout/>}>
-                            <Route path={"/"} element={<TracksList />} />
-                            <Route path="/tracks/:trackId" element={<TrackDetail />} />
+                            <Route path={"/"} element={<TracksListPage />} />
+                            <Route path="/tracks/:trackId" element={<TrackDetailPage />} />
+                            <Route path="/profile/:userId" element={<ProfilePage />} />
                         </Route>
-                        <Route path={"*"} element={<NotFound/>}/>
+                        <Route path={"*"} element={<NotFoundPage/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>
@@ -43,35 +48,3 @@ export function App() {
     )
 }
 
-const Login = () => {
-    let {lang} = useParams()
-    if (!lang) lang = "en"
-
-    return (
-        <div>
-            lang: {lang}
-            <hr/>
-            <input/>
-            <input/>
-            <button>Login</button>
-        </div>
-    )
-}
-
-const Register = () => {
-    return (
-        <div>
-            <input/>
-            <button>Register</button>
-        </div>
-    )
-}
-
-const AuthNotFound = () => {
-   const params = useParams()
-    return <h2>Auth Not Found {params['*']}</h2>
-}
-
-const NotFound = () => {
-    return <h2>Not Found</h2>
-}

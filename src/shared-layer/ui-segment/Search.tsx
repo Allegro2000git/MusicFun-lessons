@@ -1,7 +1,4 @@
-import {useEffect, useState} from "react";
-import {useSearchValidation} from "../../features-layer/tracks-slice/model-segment/useSearchValidation";
-import {useSearchStrategy} from "../../features-layer/tracks-slice/model-segment/useSearchStrategy";
-import {SearchInput} from "./SearchInput";
+import {type ChangeEvent, useEffect, useRef, useState} from "react";
 
 type Props = {
     onSearch: (search: string) => void
@@ -11,38 +8,57 @@ type Props = {
 
 export function Search({onSearch, isSearchButtonVisibles = true, mode = 'immediate'}: Props) {
     const [search, setSearch] = useState('')
-    const {error, validateSearch} = useSearchValidation()
-    const {executeSearchMode, cleanup} = useSearchStrategy({mode, onSearch})
+    const timerIdRef = useRef<number>(undefined)
+    const throttleIsWaitingRef = useRef<boolean>(false)
+    const searchValueRef = useRef<string>('')
+
+    const handleSearchClick = () => {
+        onSearch(search)
+    }
 
     useEffect(() => {
         if (!isSearchButtonVisibles) {
-            if (!validateSearch(search)) {
-                return
+            switch (mode) {
+                case 'immediate':
+                    onSearch(search)
+                    break
+                case 'debounce':
+                    clearTimeout(timerIdRef.current)
+                    timerIdRef.current = setTimeout(() => {
+                        onSearch(search)
+                    },1000)
+                    break
+                case  'throttle':
+                    if (throttleIsWaitingRef.current) return
+                    timerIdRef.current = setTimeout(() => {
+                        onSearch(searchValueRef.current)
+                        throttleIsWaitingRef.current = false
+                    },1000)
+                    throttleIsWaitingRef.current = true
+                    break
+                default: {
+                    onSearch(search)
+                }
             }
-            executeSearchMode(search);
         }
-    }, [search, isSearchButtonVisibles, executeSearchMode, validateSearch])
+    }, [search, mode, isSearchButtonVisibles, onSearch])
 
     useEffect(() => {
-        return cleanup
-    }, [cleanup])
-
-    const handleSearchChange = (value: string) => {
-        validateSearch(value)
-        setSearch(value)
-    }
-
-    const handleSearchClick = () => {
-        if (validateSearch(search)) {
-            onSearch(search)
+        return () => {
+            clearTimeout(timerIdRef.current)
         }
+    }, [])
+
+    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.currentTarget.value
+        setSearch(value)
+        searchValueRef.current = value
     }
 
     return (
         <>
-            <SearchInput value={search} onChange={handleSearchChange} error={error}/>
-            {isSearchButtonVisibles && <button onClick={handleSearchClick} disabled={!!error && search !== ''}>Search</button>}
-            {error && <div style={{color: 'red', fontSize: '12px', marginTop: '4px'}}>{error}</div>}
+            <input value={search} onChange={handleSearchChange}/>
+            {isSearchButtonVisibles && <button onClick={handleSearchClick}>Search</button>}
         </>
 
     )
