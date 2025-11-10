@@ -6,7 +6,7 @@ export const client = createClient<paths>({ baseUrl: "https://musicfun.it-incuba
 
 const myMiddleware: Middleware = {
     async onRequest({ request }) {
-        request.headers.set( 'API-KEY', "a727ff81-ad3");
+        request.headers.set( 'API-KEY', "a727ff81-a");
         const {login, password} = authStorage.getBasicCredentials()
         const encoded = btoa(`${login}:${password}`)
         request.headers.set('Authorization', `Basic ${encoded}`)

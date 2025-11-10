@@ -13,7 +13,7 @@ export  const Route = (props: any) => {
     const value = useContext(RouterContext)
 
     useEffect(() => {
-        const listener = (e: any) => {
+        const listener = () => {
             setVersion((prev) => prev + 1)
         }
 
