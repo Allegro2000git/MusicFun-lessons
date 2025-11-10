@@ -8,9 +8,7 @@ export const useLoginMutation = () => {
 
     return useMutation({
         mutationFn: async ({login, password}:{login: string, password: string}) => {
-
             authStorage.saveBasicCredentials(login, password)
-
             const  wrapper = await client.GET('/auth/me')
             if (wrapper.error) {
                 authStorage.removeBasicCredentials()
