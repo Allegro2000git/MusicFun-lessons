@@ -18,8 +18,6 @@ export const useUploadTrack = () => {
                     return formData
                 }
             })
-
-            if (wrapper.error) throw wrapper.error
             return wrapper.data
         },
         onSuccess: () => {

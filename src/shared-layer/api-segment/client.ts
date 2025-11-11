@@ -6,12 +6,25 @@ export const client = createClient<paths>({ baseUrl: "https://musicfun.it-incuba
 
 const myMiddleware: Middleware = {
     async onRequest({ request }) {
-        request.headers.set( 'API-KEY', "a727ff81-a");
+        request.headers.set( 'API-KEY', "");
         const {login, password} = authStorage.getBasicCredentials()
         const encoded = btoa(`${login}:${password}`)
         request.headers.set('Authorization', `Basic ${encoded}`)
         return request;
     },
+   async onResponse({response}) {
+        if (!response.ok) {
+            const responseBody = await response.json()
+            const error = new APIError(response, responseBody)
+            throw error
+        }
+    }
 };
 
 client.use(myMiddleware)
+
+class APIError extends Error {
+ constructor(public response: Response, public body: any) {
+     super(`${response.url} ${response.status} ${response.statusText}`)
+    }
+}
